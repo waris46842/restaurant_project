@@ -20,7 +20,10 @@ exports.getReservations = async (req,res,next) => {
         });
     }
     try {
-        const reservations = await query;
+        var reservations = await query;
+        if(req.params.restaurantId) {
+            reservations = reservations.filter(reservation => reservation.restaurant.id==req.params.restaurantId)
+        }
         res.status(200).json({
             success: true,
             count: reservations.length,
